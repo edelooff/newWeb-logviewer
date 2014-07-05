@@ -2,7 +2,7 @@
   <table>
     <thead>
       <tr class="closed_row">
-        <td>[event:logTime|timeago]&nbsp;ago</td>
+        <td>[event:logTime|time_ago]&nbsp;ago</td>
         <td>[event:logMessage|80cols]</td>
       </tr>
       <tr class="open_row">
@@ -13,7 +13,7 @@
       <tr>
         <td>
           <ul class="metadata">
-            <li><span>Runtime:</span> [event:logTimeRelative|timedelta]</li>
+            <li><span>Runtime:</span> [event:logTimeRelative|duration]</li>
             <li><span title="Thread number [event:threadNumber]">Thread:</span> [event:threadName]</li>
             <li><span>Scope:</span> [event:functionName]</li>
             <li><span>Line:</span> [event:lineNumber]</li>

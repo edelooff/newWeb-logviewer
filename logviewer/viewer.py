@@ -9,8 +9,11 @@ import pytz
 import time
 import os
 
-# Custom modules
+# Third-party modules
+import babel.dates
 import uweb
+
+# Application modules
 from . import model
 
 
@@ -24,8 +27,8 @@ class Viewer(uweb.DebuggingPageMaker):
 
   def _PostInit(self):
     self.parser.RegisterFunction('datetime', DateFormat)
-    self.parser.RegisterFunction('timeago', TimeAgo)
-    self.parser.RegisterFunction('timedelta', TimeDeltaFormat)
+    self.parser.RegisterFunction('time_ago', time_ago)
+    self.parser.RegisterFunction('duration', duration_milliseconds)
     self.parser.RegisterFunction('80cols', CutAfter(80))
     self.paths = list(self._LogPaths())
 
@@ -148,28 +151,16 @@ def DateFormat(dtime):
   return dtime.strftime('%F %T')
 
 
-def TimeDeltaFormat(milliseconds):
+def duration_milliseconds(milliseconds):
   """Returns a timedelta input in milliseconds as a human readable string."""
-  hours, seconds = divmod(milliseconds / 1e3, 3600)
-  days, hours = divmod(hours, 24)
-  minutes, seconds = divmod(seconds, 60)
-  return ShortDiff(days, hours, minutes, seconds)
+  return format_delta(datetime.timedelta(milliseconds=milliseconds))
 
 
-def TimeAgo(dtime):
-  """Returns the amount of time something happened in the past as string."""
-  diff = pytz.utc.localize(datetime.datetime.utcnow()) - dtime
-  hours = diff.seconds // 3600
-  minutes = diff.seconds // 60 % 60
-  seconds = diff.seconds % 60
-  return ShortDiff(diff.days, hours, minutes, seconds)
+def time_ago(dtime):
+  """Returns the amount of time something happened in the past."""
+  return format_delta(pytz.utc.localize(datetime.datetime.utcnow()) - dtime)
 
 
-def ShortDiff(days, hours, minutes, seconds):
-  if days:
-    return '%dd%dh%dm%ds' % (days, hours, minutes, seconds)
-  if hours:
-    return '%dh%dm%ds' % (hours, minutes, seconds)
-  if minutes:
-    return '%dm%ds' % (minutes, seconds)
-  return '%ds' % seconds
+def format_delta(delta):
+  """Returns a string describing the timedelta in natural language."""
+  return babel.dates.format_timedelta(delta, threshold=1.5, locale='en')
