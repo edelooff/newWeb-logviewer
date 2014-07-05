@@ -86,23 +86,19 @@ class Viewer(uweb.DebuggingPageMaker):
             'http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js',
             '/static/database.js')))
 
-  def Invalidcommand(self, command):
+  def Invalidcommand(self, path):
     """Returns an error message"""
-    self.req.registry.logger.warning('Bad page %r requested', command)
-    return uweb.Response(
-        httpcode=404,
-        content=self.parser.Parse(
-            '404.html', error=command,
-            **self.CommonBlocks('Page not found')))
+    self.req.registry.logger.warning('Bad page %r requested', path)
+    self.req.response.httpcode = 404
+    return self.parser.Parse(
+        '404.html', error=path, **self.CommonBlocks('Page not found'))
 
-  def InvalidDatabase(self, database):
+  def InvalidDatabase(self, path):
     """Returns an error message"""
-    self.req.registry.logger.warning('Bad database %r requested', database)
-    return uweb.Response(
-        httpcode=404,
-        content=self.parser.Parse(
-            'invaliddb.html', error=database,
-            **self.CommonBlocks('Database not found')))
+    self.req.registry.logger.warning('Bad database %r requested', path)
+    self.req.response.httpcode = 404
+    return self.parser.Parse(
+        'invaliddb.html', error=path, **self.CommonBlocks('Database not found'))
 
   def Header(self, title='Available databases', page_id=None):
     """Returns the header template, filled out from the given title and page_id.
