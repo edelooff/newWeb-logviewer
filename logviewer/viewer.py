@@ -29,7 +29,7 @@ class Viewer(uweb.DebuggingPageMaker):
     self.parser.RegisterFunction('datetime', DateFormat)
     self.parser.RegisterFunction('time_ago', time_ago)
     self.parser.RegisterFunction('duration', duration_milliseconds)
-    self.parser.RegisterFunction('80cols', CutAfter(80))
+    self.parser.RegisterFunction('80cols', cut_after(80))
     self.paths = list(self._LogPaths())
 
   def _LogPaths(self):
@@ -137,13 +137,13 @@ class Viewer(uweb.DebuggingPageMaker):
             'footer': self.Footer(scripts)}
 
 
-def CutAfter(length):
+def cut_after(length):
   """Returns a function that cuts the string short after `length` characters."""
-  def _CutAfter(text, length=length):
-    if len(text) <= 80:
-      return text
-    return text[:78] + u' \u2026'
-  return _CutAfter
+  def _cut_after(text, length=length):
+    if len(text) > length:
+      text = text[:length - 1] + u'\N{HORIZONTAL ELLIPSIS}'
+    return text
+  return _cut_after
 
 
 def DateFormat(dtime):
