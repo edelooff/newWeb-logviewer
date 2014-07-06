@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 REQUIREMENTS = [
     'babel',
-    'uweb',
+    'newweb',
 ]
 
 
@@ -23,7 +23,7 @@ setup(
         "Topic :: Internet :: WWW/HTTP",
         "Topic :: Internet :: WWW/HTTP :: WSGI :: Application"],
     dependency_links=[
-        'https://github.com/edelooff/newWeb/tarball/master#egg=uweb',],
+        'https://github.com/edelooff/newWeb/tarball/master#egg=newweb-dev',],
     author='Elmer de Looff',
     author_email='elmer.delooff@gmail.com',
     url='https://github.com/edelooff/newWeb-logviewer',

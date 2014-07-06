@@ -1,13 +1,13 @@
-#!/usr/bin/python2.5
+#!/usr/bin/python
 """This module scans for logging files and delivers them as objects"""
 
-# standard modules
+# Standard modules
 import os
 import fnmatch
 
-# uWeb modules
+# Third-party modules
 from underdark.libs.sqltalk import sqlite
-import uweb
+import newweb
 
 
 class DatabaseError(Exception):
