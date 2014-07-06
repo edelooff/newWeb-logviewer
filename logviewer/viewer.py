@@ -11,13 +11,13 @@ import os
 
 # Third-party modules
 import babel.dates
-import uweb
+import newweb
 
 # Application modules
 from . import model
 
 
-class Viewer(uweb.DebuggingPageMaker):
+class Viewer(newweb.DebuggingPageMaker):
   """Holds all the html generators for the logger web frontend
 
   Each page as a separate method.
@@ -43,11 +43,11 @@ class Viewer(uweb.DebuggingPageMaker):
       if db_path.startswith(path):
         break
     else:
-      raise uweb.ImmediateResponse(self.InvalidDatabase(db_path))
+      raise newweb.ImmediateResponse(self.InvalidDatabase(db_path))
     try:
       return model.LogDb(db_path)
     except model.DatabaseError, error:
-      raise uweb.ImmediateResponse(self.InvalidDatabase(error))
+      raise newweb.ImmediateResponse(self.InvalidDatabase(error))
 
   def Index(self):
     logs = model.Logging(self.paths, self.options['paths']['filemask'])
@@ -123,7 +123,7 @@ class Viewer(uweb.DebuggingPageMaker):
         'footer.html',
         scripts=scripts,
         year=time.strftime('%Y'),
-        version={'uweb': uweb.__version__, 'logviewer': __version__})
+        version={'newweb': newweb.__version__, 'logviewer': __version__})
 
   def Sidebar(self):
     logs = model.Logging(self.paths, self.options['paths']['filemask'])

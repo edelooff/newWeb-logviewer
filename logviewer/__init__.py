@@ -5,7 +5,7 @@
 import os
 
 # Third-party modules
-import uweb
+import newweb
 
 # Application components
 from . import viewer
@@ -13,10 +13,11 @@ from . import viewer
 
 def main():
   """Sets up the application for the logviewer."""
-  config = os.path.join(os.path.dirname(__file__), 'config.ini')
+  config_file = os.path.join(os.path.dirname(__file__), 'config.ini')
+  config = newweb.read_config(config_file)
   routes = [
       ('/', 'Index'),
       ('/db/(.*)', 'Database'),
       ('/static/(.*)', 'Static'),
       ('/(.*)', 'Invalidcommand')]
-  return uweb.NewWeb(viewer.Viewer, routes, config=uweb.read_config(config))
+  return newweb.NewWeb(viewer.Viewer, routes, config=config)
