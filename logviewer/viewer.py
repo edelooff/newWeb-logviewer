@@ -117,13 +117,11 @@ class Viewer(uweb.DebuggingPageMaker):
       page_id = title.replace(' ', '_').lower()
     return self.parser.Parse('header.html', title=title, page_id=page_id)
 
-  def Footer(self, scripts=()):
+  def Footer(self, scripts):
     """Returns the footer html"""
-    scripts = ['<script type="text/javascript" src="%s"></script>' % path
-               for path in scripts]
     return self.parser.Parse(
         'footer.html',
-        scripts=''.join(scripts),
+        scripts=scripts,
         year=time.strftime('%Y'),
         version={'uweb': uweb.__version__, 'logviewer': __version__})
 

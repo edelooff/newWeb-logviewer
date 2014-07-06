@@ -1,6 +1,8 @@
     <div id="footer">
       <p>&copy; [year] Underdark &ndash; LogViewer v[version:logviewer] / &micro;Web v[version:uweb]</p>
     </div>
-    [scripts|raw]
+  {{ for script in [scripts] }}
+    <script type="text/javascript" src="[script]"></script>
+  {{ endfor }}
   </body>
 </html>
